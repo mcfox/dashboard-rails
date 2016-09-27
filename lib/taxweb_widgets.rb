@@ -1,0 +1,8 @@
+# require 'haml'
+require 'taxweb_widgets/engine'
+require 'taxweb_widgets/singleton_helper'
+require 'taxweb_widgets/base'
+
+module TaxwebWidgets
+  # Mime::Type.register "application/vnd.ms-excel", :xls
+end

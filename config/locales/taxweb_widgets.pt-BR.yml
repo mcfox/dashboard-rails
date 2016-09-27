@@ -1,0 +1,13 @@
+pt-BR:
+  activerecord:
+    models:
+      taxweb_widgets/alert:
+        one: "Alerta"
+        other: "Alertas"
+    attributes:
+      taxweb_widgets/alert:
+        mtype: "tipo"
+        message: "mensagem"
+        timeout: "tempo exibição (seg)"
+        start: "início vigência"
+        end: "término vigência"

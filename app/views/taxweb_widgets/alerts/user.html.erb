@@ -1,0 +1,33 @@
+<h1>Alertas recentes do sistema.</h1>
+<p class="help-block">Abaixo estão listados alertas recentes do sistema que você ocultou ou que excederam o tempo limite de exibição..</p>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th><%= TaxwebWidgets::Alert.human_attribute_name("message") %></th>
+    <th><%= TaxwebWidgets::Alert.human_attribute_name("start") %></th>
+    <th><%= TaxwebWidgets::Alert.human_attribute_name("end") %></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @alerts.each do |alert| %>
+      <tr class="<%= alert.mtype=='error' ? 'danger' : alert.mtype %>">
+        <td><%= alert.message %></td>
+        <td><%= l alert.start, format: :short %></td>
+        <td><%= l alert.end, format: :short %></td>
+        <td><%= link_to 'Reativar', taxweb_widgets_unread_path(alert), class: 'btn btn-default btn-xs bt_reativar', method: :delete, remote: true %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script>
+  //CALLBACK
+  $("a.bt_reativar[data-remote]").on("ajax:success", function(e, data, status, xhr) {
+    if (confirm('Após reativar uma mensagem você precisa recarregar a página para visualizar as alteraçaões. Deseja recarregar agora?')==true) {
+      window.location.reload(); //(true); < sem cache
+    }
+  });
+</script>
