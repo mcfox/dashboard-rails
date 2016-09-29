@@ -17,7 +17,7 @@ class ApplicationWidget < ::ApplicationController
   def view(view_file=nil, klass=nil)
     class_caller = klass || (caller[0].match(/(\b\w+)\.rb/)[1] rescue '')
     action_caller = view_file || (caller[0].match(/`(.*)'/)[1] rescue '')
-    view_file = "widgets/#{class_caller.sub('_widget','')}/#{action_caller}" unless lookup_context.find_all(view_file).any?
+    view_file = "widgets/#{class_caller.to_s.sub('_widget','')}/#{action_caller}" unless lookup_context.find_all(view_file).any?
     instance_variable_set(:@view_file, view_file)
   end
 

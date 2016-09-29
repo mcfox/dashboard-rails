@@ -3,9 +3,7 @@ module TaxwebWidgets
 
     def add_widget(widget_name, widget_action)
       widget = TaxwebWidgets::Widget.new(widget_name, self.request)
-      content_tag(:div, id: "widget_#{widget_name}_#{widget_action}", class: 'widget', data: {tick: widget.param(:refresh_interval), url: taxweb_widgets_load_path(widget_name: widget_name, widget_action: widget_action)}) do
-        # widget.html(widget_action)
-      end
+      content_tag(:div, '', id: "widget_#{widget_name}_#{widget_action}", class: 'widget', data: {tick: widget.param(:refresh_interval), url: taxweb_widgets_load_path(widget_name: widget_name, widget_action: widget_action)})
     end
 
     def widget_path(args=nil)
