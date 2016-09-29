@@ -17,6 +17,7 @@ $(document).on('ready',function(){
                 method: 'get',
                 dataType: 'html',
                 beforeSend: function (jqXHR, settings) {
+                    widget_loading($el);
                 },
                 success: function (data, textStatus, jqXHR) {
                     console.log('sucesso');
@@ -27,14 +28,27 @@ $(document).on('ready',function(){
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log('erro');
-                    console.log(jqXHR);
+                    console.log('erro',jqXHR);
                 },
                 complete: function (jqXHR, textStatus) {
+                    widget_loading($el, false);
                 }
             });
         } else {
             alert('Erro! Objeto Widget Não encontrado!');
+        }
+    };
+
+    var widget_loading = function(element, state) {
+        var $el = $(element);
+        if (state==undefined) state=true;
+
+        if (state==true) {
+            $("<div class='widget_loading'><span>Carregando...</span></div>").appendTo($el);
+        } else {
+            $el.find('.widget_loading').fadeOut('fast', function(){
+                $(this).remove();
+            });
         }
     };
 
@@ -48,7 +62,6 @@ $(document).on('ready',function(){
             var interval = window.setInterval(function(){
                 widget_load_from_ajax($el);
             }, ticket);
-            console.log(interval);
         }
     });
 

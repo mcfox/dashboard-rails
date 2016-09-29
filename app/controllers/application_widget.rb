@@ -2,8 +2,8 @@ class ApplicationWidget < ::ApplicationController
   include SingletonHelper
 
   attr_singleton :widget_name, 'Widget'
-  attr_singleton :widget_description
-  attr_singleton :refresh_interval
+  attr_singleton :widget_description, 'Widget'
+  attr_singleton :refresh_interval, 0
 
   def initialize(request)
     self.request = request
