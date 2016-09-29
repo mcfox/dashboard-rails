@@ -1,45 +1,124 @@
-// require taxweb_widgets/jquery-3.1.1.min
-//= require taxweb_widgets/lodash.4.16.2.min
-//= require taxweb_widgets/gridstack.0.3.0.min
-//= require taxweb_widgets/gridstack.0.3.0.jQueryUI.min
-$(document).ready(function(){
+$(document).on('ready',function(){
 
-    $('body').append('<div><a class="btn btn-default" id="add-new-widget" href="#">Add Widget</a></div><br/><div class="grid-stack"></div>');
-
-    var options = {
-        float: true
+    var hasParams = function(url) {
+        var regex = new RegExp(/\?\w+\=/);
+        regex.test(url);
     };
-    $('.grid-stack').gridstack(options);
 
-    new function () {
-        this.items = [
-            {x: 0, y: 0, width: 2, height: 2},
-            {x: 3, y: 1, width: 1, height: 2},
-            {x: 4, y: 1, width: 1, height: 1},
-            {x: 2, y: 3, width: 3, height: 1},
-//                    {x: 1, y: 4, width: 1, height: 1},
-//                    {x: 1, y: 3, width: 1, height: 1},
-//                    {x: 2, y: 4, width: 1, height: 1},
-            {x: 2, y: 5, width: 1, height: 1}
-        ];
+    var widget_load_from_ajax = function($el, new_url) {
+        if ($el!=undefined && $el!=null && $el instanceof jQuery) {
+            var dest_url = (new_url != undefined ? new_url : $el.attr('data-url'));
+            // var query_string = window.location.search.substring(1);
+            // if (query_string!=undefined && query_string!=null) {
+            //     dest_url = dest_url + (hasParams(dest_url) ? '&' : '?') + query_string;
+            // }
+            $.ajax({
+                url: dest_url,
+                method: 'get',
+                dataType: 'html',
+                beforeSend: function (jqXHR, settings) {
+                },
+                success: function (data, textStatus, jqXHR) {
+                    console.log('sucesso');
+                    $el.html(data);
 
-        this.grid = $('.grid-stack').data('gridstack');
-
-        this.addNewWidget = function () {
-            var node = this.items.pop() || {
-                    x: 12 * Math.random(),
-                    y: 5 * Math.random(),
-                    width: 1 + 3 * Math.random(),
-                    height: 1 + 3 * Math.random()
-                };
-            this.grid.addWidget($('<div><div class="grid-stack-item-content" /><div/>'), node.x, node.y, node.width, node.height, false, 1, 1, 2, 2);
-            return false;
-        }.bind(this);
-
-        $('#add-new-widget').click(this.addNewWidget);
+                    if (new_url != undefined) {
+                        $el.attr('data-url', new_url);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log('erro');
+                    console.log(jqXHR);
+                },
+                complete: function (jqXHR, textStatus) {
+                }
+            });
+        } else {
+            alert('Erro! Objeto Widget Não encontrado!');
+        }
     };
+
+    $('.widget[data-url]').each(function(i,el) {
+        var $el = $(el);
+        var ticket = $el.attr('data-tick') || 0;
+        //
+        widget_load_from_ajax($el);
+        //
+        if (ticket > 0) {
+            var interval = window.setInterval(function(){
+                widget_load_from_ajax($el);
+            }, ticket);
+            console.log(interval);
+        }
+    });
+
+    //FORMS
+    $(document).on('submit','form[widget_ajax]', function(ev) {
+        ev.preventDefault();
+        var widget_element = $(this).closest('.widget'),
+            atributos = $(this).serialize(),
+            form_url = $(this).attr('action');
+        if (atributos!=undefined && atributos!=null) {
+            form_url = form_url + (hasParams(form_url) ? '&' : '?') + atributos;
+        }
+        widget_load_from_ajax(widget_element, form_url);
+    });
+
+    //LINKS
+    $(document).on('click','a[widget_ajax]', function(ev) {
+        ev.preventDefault();
+        var widget_element  = $(this).closest('.widget');
+        var new_url = $(this).attr('href');
+        widget_load_from_ajax(widget_element, new_url);
+    });
 
 });
+
+
+
+
+// require taxweb_widgets/jquery-3.1.1.min
+// require taxweb_widgets/lodash.4.16.2.min
+// require taxweb_widgets/gridstack.0.3.0.min
+// require taxweb_widgets/gridstack.0.3.0.jQueryUI.min
+// $(document).ready(function(){
+//
+//     $('body').append('<div><a class="btn btn-default" id="add-new-widget" href="#">Add Widget</a></div><br/><div class="grid-stack"></div>');
+//
+//     var options = {
+//         float: true
+//     };
+//     $('.grid-stack').gridstack(options);
+//
+//     new function () {
+//         this.items = [
+//             {x: 0, y: 0, width: 2, height: 2},
+//             {x: 3, y: 1, width: 1, height: 2},
+//             {x: 4, y: 1, width: 1, height: 1},
+//             {x: 2, y: 3, width: 3, height: 1},
+// //                    {x: 1, y: 4, width: 1, height: 1},
+// //                    {x: 1, y: 3, width: 1, height: 1},
+// //                    {x: 2, y: 4, width: 1, height: 1},
+//             {x: 2, y: 5, width: 1, height: 1}
+//         ];
+//
+//         this.grid = $('.grid-stack').data('gridstack');
+//
+//         this.addNewWidget = function () {
+//             var node = this.items.pop() || {
+//                     x: 12 * Math.random(),
+//                     y: 5 * Math.random(),
+//                     width: 1 + 3 * Math.random(),
+//                     height: 1 + 3 * Math.random()
+//                 };
+//             this.grid.addWidget($('<div><div class="grid-stack-item-content" /><div/>'), node.x, node.y, node.width, node.height, false, 1, 1, 2, 2);
+//             return false;
+//         }.bind(this);
+//
+//         $('#add-new-widget').click(this.addNewWidget);
+//     };
+//
+// });
 
 // require taxweb_widgets/jquery.gridster-0.7.0.min
 // require taxweb_widgets/jquery.gridster-0.7.0.with-extras.min

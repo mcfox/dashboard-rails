@@ -1,8 +1,13 @@
-class ApplicationWidget < ActionController::Base
+class ApplicationWidget < ::ApplicationController
   include SingletonHelper
 
-  attr_singleton :name, 'Widget'
-  attr_singleton :description
+  attr_singleton :widget_name, 'Widget'
+  attr_singleton :widget_description
+  attr_singleton :refresh_interval
+
+  def initialize(request)
+    self.request = request
+  end
 
   def render_template(view_file=nil, *args)
     args << {template: view_file}
