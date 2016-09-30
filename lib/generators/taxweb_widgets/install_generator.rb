@@ -6,11 +6,7 @@ module TaxwebWidgets
     source_root File.expand_path("../../templates", __FILE__)
     include Rails::Generators::Migration
     class_option :orm
-    desc 'Instalando Taxweb Alertas'
-
-    # def copy_service_file
-    #   copy_file 'faturamento_service.rb', 'app/services/faturamento_service.rb'
-    # end
+    desc 'Instalando Taxweb Widgets'
 
     desc 'Criando Migrations'
     def self.next_migration_number(path)
@@ -23,7 +19,6 @@ module TaxwebWidgets
     end
 
     def create_migration_file
-      migration_template 'create_taxweb_widgets_alerts.rb', 'db/migrate/create_taxweb_widgets_alerts.rb'
       migration_template 'create_taxweb_widgets_users.rb', 'db/migrate/create_taxweb_widgets_users.rb'
     end
 

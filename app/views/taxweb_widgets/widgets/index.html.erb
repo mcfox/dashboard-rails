@@ -13,11 +13,11 @@
                   <br><span class="help-block"><%= widget[:description] %></span>
                   <ul>
                     <% widget[:actions].each do |action| %>
-                        <% ck_id = "#{widget[:code]}_#{action}" %>
+                        <% widget_code = "#{widget[:code]}_#{action[:name]}" %>
                         <li>
                           <div class="checkbox">
-                            <%= label_tag ck_id do %>
-                              <%= check_box_tag(ck_id) %>
+                            <%= label_tag widget_code do %>
+                              <%= check_box_tag 'widgets[]', "#{widget[:code]}|#{action[:name]}", @widgets_code.include?(widget_code), {id: widget_code} %>
                               <b><%= action[:name].to_s.humanize %></b>
                               <% if action[:description].present? %>
                                 <br><span class="help-block"><%= action[:description] %></span>
