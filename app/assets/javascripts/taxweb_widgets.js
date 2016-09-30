@@ -20,9 +20,8 @@ $(document).on('ready',function(){
                     widget_loading($el);
                 },
                 success: function (data, textStatus, jqXHR) {
-                    console.log('sucesso');
+                    //console.log('sucesso');
                     $el.html(data);
-
                     if (new_url != undefined) {
                         $el.attr('data-url', new_url);
                     }

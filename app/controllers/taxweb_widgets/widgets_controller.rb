@@ -1,9 +1,7 @@
 require_dependency "taxweb_widgets/application_controller"
 
 module TaxwebWidgets
-  class GatewayController < ApplicationController
-
-    layout false
+  class WidgetsController < ApplicationController
 
     def load
       widget = TaxwebWidgets::Widget.new(params[:widget_name], self.request)
@@ -11,7 +9,14 @@ module TaxwebWidgets
     rescue Exception => e
       content = e.message
     ensure
-      render html: content
+      render html: content, layout: false
+    end
+
+    def index
+
+    end
+
+    def save
     end
 
   end

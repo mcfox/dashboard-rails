@@ -1,8 +1,6 @@
 class ApplicationWidget < ::ApplicationController
   include SingletonHelper
 
-  attr_singleton :widget_name, 'Widget'
-  attr_singleton :widget_description, 'Widget'
   attr_singleton :refresh_interval, 0
 
   def initialize(request)
@@ -19,6 +17,56 @@ class ApplicationWidget < ::ApplicationController
     action_caller = view_file || (caller[0].match(/`(.*)'/)[1] rescue '')
     view_file = "widgets/#{class_caller.to_s.sub('_widget','')}/#{action_caller}" unless lookup_context.find_all(view_file).any?
     instance_variable_set(:@view_file, view_file)
+  end
+
+  def self.name?
+    instance_variable_defined?(:@widget_name) ? instance_variable_get(:@widget_name) : ''
+  end
+
+  def self.name!(value)
+    # define_singleton_method(:widget_name) {value}
+    instance_variable_set(:@widget_name, value)
+  end
+
+  def self.description?(attr=nil)
+    attr='widget' if attr.nil?
+    instance_variable_defined?("@description_#{attr}") ? instance_variable_get("@description_#{attr}") : ''
+  end
+
+  def self.description!(*args)
+    if args.size == 1
+      instance_variable_set(:@description_widget, args[0])
+    elsif args.size == 2
+      instance_variable_set("@description_#{args[0]}", args[1])
+    end
+  end
+
+  # def self.inherited(child_class)
+  #   child_class.instance_eval do
+  #
+  #     def self.permitted_scope!(&block)
+  #       self.class_eval do
+  #         self.send(:define_singleton_method, :test_scope, &block)
+  #       end
+  #     end
+  #
+  #     def permitted_scope?(context)
+  #       self.send(:test_scope)
+  #     end
+  #
+  #   end
+  # end
+
+  def self.widgets
+    # ApplicationWidget.descendants.map do |klass| #Não estava carregando no primeiro load...
+    Dir["#{Rails.root}/app/widgets/*.rb"].map do |file_path|
+      file_name = File.basename(file_path, ".rb")
+      klass = Object.const_get file_name.classify
+      actions = klass.instance_methods(false).map do |action|
+        {name: action, description: klass.description?(action)}
+      end
+      {code: klass.to_s.tableize.sub('_widgets',''), name: klass.name?, description: klass.description?, actions: actions}
+    end
   end
 
 end

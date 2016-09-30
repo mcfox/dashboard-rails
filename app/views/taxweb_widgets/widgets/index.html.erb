@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">Selecione os Widgets que deseja utilizar:</div>
+      </div>
+      <div class="panel-body">
+        <%= form_tag(taxweb_widgets_save_path, method: :put, class: 'form-horizontal') do %>
+          <% ApplicationWidget.widgets.each do |widget| %>
+              <ul>
+                <li>
+                  <b><%= widget[:name] %></b>
+                  <br><span class="help-block"><%= widget[:description] %></span>
+                  <ul>
+                    <% widget[:actions].each do |action| %>
+                        <% ck_id = "#{widget[:code]}_#{action}" %>
+                        <li>
+                          <div class="checkbox">
+                            <%= label_tag ck_id do %>
+                              <%= check_box_tag(ck_id) %>
+                              <b><%= action[:name].to_s.humanize %></b>
+                              <% if action[:description].present? %>
+                                <br><span class="help-block"><%= action[:description] %></span>
+                              <% end %>
+                            <% end %>
+                          </div>
+                        </li>
+                    <% end %>
+                  </ul>
+                </li>
+              </ul>
+          <% end %>
+          <%= submit_tag "Salvar", class: 'btn btn-success' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
