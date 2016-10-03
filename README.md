@@ -41,14 +41,25 @@ Para sobrescrever as views de configuração dos Widgets utilize:
 rails g taxweb_widgets:view
 ```
 
+Para gerar a estrutura básica do Widget utilize:
+```sh
+rails generate taxweb_widgets:widget nome_do_widget
+```
+
+Para excluir o widget e suas pastas
+```sh
+rails destroy taxweb_widgets:widget nome_do_widget
+```
+
 ### Widgets
 
 A lógida dos widgets são criados na pasta `app/widgets/exemplo_widget.rb`
 ```ruby
 class ExemploWidget < ApplicationWidget
 
-  name! 'Widget Exempo'
+  name! 'Widget Exemplo'
   description! 'Esse Widget é apenas um exemplo'
+  #refresh_interval 5000
 
   description! :executar, 'Essa ação é um outro exemplo'
   def executar
@@ -65,6 +76,7 @@ Parametros utilizados como documentação para exibir na lista de configuração
 - **name!** identifica o nome (título) do Widget. 
 - **description!** é a descrição (função)  do Widget.
 - **description! :acao** é a descrição (função) da ação daquele Widget.
+- **refresh_interval** é o tempo em que o plugin deverá ser atualizado automaticamente. Padrão: 0 (ZERO - não atualizar). 
 
 O conteúdo visual do Widget (VIEW) seguirá o padrão do rails estando na pasta `app/views/widgets/nome_do_widget/nome_da_acao.html.erb`:
 
@@ -98,8 +110,7 @@ Para adicionar um widget use o helper `add_widget(nome_widget, ação)`:
 
 Para referenciar um path do widget de forma automática utilize `widget_path`. Esse helper espera que haja definido em params *widget_name* e *widget_name* :
 ```html
-#params[:widget_name] = 'calendarios'
-#params[:widget_naction] = 'mensal'
+<!-- ESPERA QUE EXISTA params[:widget_name] e params[:widget_action] definidos -->
 <%= widget_path(novo_atributo: 'novo valor') %>
 ``` 
 
@@ -115,11 +126,19 @@ Formulário para reescrever o plugin baseado em algum parametro:
 <% end %>
 ```
 
+### Atualização Manual do Widget
+
+Para atualizar um widget de forma manual você precisa recuperar o elemento do widget com a classe `widget` e chamar o método `widget_load_from_ajax`:
+```javascript
+var elemento = $('.widget:first')
+//Esse elemento precisa ser um elemento jQuery
+widget_load_from_ajax(elemento);
+```
+
 ### Recursos AJAX (automáticos)
 
-Toda vez que um elemento com classe `widget-user-contro` for alterado será disparado um evento AJAX que irá localizar as configuraçẽos do usuário na view de configuração e retornará um HTML com o conteúdo no elemento `.widgets_list .list`
+Toda vez que um elemento com classe `widget-user-control` for alterado será disparado um evento AJAX que irá localizar as configuraçẽos do usuário na view de configuração e retornará um HTML com o conteúdo no elemento `.widgets_list .list`
 
 Todo formulário em widget que tenha a atributo `widget_ajax` terá seu evento "submit" enviado por AJAX, retornando o resultado no próprio container do widget, portanto é esperado um retorno HTML.
  
 Todo elemento com atributo `data-url` tentará criar um contador com tempo igual ao atributo `data-tick` para atualização automática do widget.
-
