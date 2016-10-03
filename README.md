@@ -137,7 +137,7 @@ widget_load_from_ajax(elemento);
 
 ### Recursos AJAX (automáticos)
 
-Toda vez que um elemento com classe `widget-user-control` for alterado será disparado um evento AJAX que irá localizar as configuraçẽos do usuário na view de configuração e retornará um HTML com o conteúdo no elemento `.widgets_list .list`
+Toda vez que um elemento com classe `widget-user-control` for alterado será disparado um evento AJAX que irá localizar as configuraçẽos do usuário na view de configuração e retornará um HTML com o conteúdo no elemento `.widgets_list .list`. Caso não seja informado esse item, o primeiro formulário com a classe `widget_config` será passado como elemento destino.
 
 Todo formulário em widget que tenha a atributo `widget_ajax` terá seu evento "submit" enviado por AJAX, retornando o resultado no próprio container do widget, portanto é esperado um retorno HTML.
  

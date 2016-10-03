@@ -36,8 +36,7 @@ function widget_load_from_ajax($el, new_url) {
     }
 }
 
-function widget_load_user_config(user_id, $el) {
-    var $elDestBlock = $el.closest('form');
+function widget_load_user_config(user_id, $elDestBlock) {
     var $elDestList = $elDestBlock.find('.widgets_list .list');
     $.ajax({
         url: '/taxweb_widgets/widgets/user/'+user_id,
@@ -114,7 +113,7 @@ $(document).on('ready',function(){
     if ($('.widget-user-control').length > 0) {
         $('.widget-user-control').trigger('change');
     } else {
-        widget_load_user_config('',$('.widget .widgets_list:first'))
+        widget_load_user_config('', $('form.widget_config:first'))
     }
 
 });
