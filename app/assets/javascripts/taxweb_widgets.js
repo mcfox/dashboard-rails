@@ -36,14 +36,14 @@ function widget_load_from_ajax($el, new_url) {
     }
 }
 
-function widget_load_user_config(user_id, $elDestBlock) {
-    var $elDestList = $elDestBlock.find('.widgets_list .list');
+function widget_load_user_config(user_id, elDestBlock) {
+    var $elDestList = elDestBlock.find('.widgets_list .list');
     $.ajax({
         url: '/taxweb_widgets/widgets/user/'+user_id,
         method: 'get',
         dataType: 'html',
         beforeSend: function (jqXHR, settings) {
-            widget_loading($elDestBlock);
+            widget_loading(elDestBlock);
         },
         success: function (data, textStatus, jqXHR) {
             $elDestList.html(data);
@@ -52,7 +52,7 @@ function widget_load_user_config(user_id, $elDestBlock) {
             console.log('erro',jqXHR);
         },
         complete: function (jqXHR, textStatus) {
-            widget_loading($elDestBlock, false);
+            widget_loading(elDestBlock, false);
         }
     });
 }
@@ -104,7 +104,7 @@ $(document).on('ready',function(){
         widget_load_from_ajax($el);
         if (ticket > 0) {
             var interval = window.setInterval(function(){
-                widget_load_from_ajax($el);
+                widget_load_from_ajax($el.find('form.widget_config:first'));
             }, ticket);
         }
     });
