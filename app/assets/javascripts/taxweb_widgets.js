@@ -36,6 +36,28 @@ function widget_load_from_ajax($el, new_url) {
     }
 }
 
+function widget_load_user_config(user_id, $el) {
+    var $elDestBlock = $el.closest('form');
+    var $elDestList = $elDestBlock.find('.widgets_list .list');
+    $.ajax({
+        url: '/taxweb_widgets/widgets/user/'+user_id,
+        method: 'get',
+        dataType: 'html',
+        beforeSend: function (jqXHR, settings) {
+            widget_loading($elDestBlock);
+        },
+        success: function (data, textStatus, jqXHR) {
+            $elDestList.html(data);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log('erro',jqXHR);
+        },
+        complete: function (jqXHR, textStatus) {
+            widget_loading($elDestBlock, false);
+        }
+    });
+}
+
 function widget_loading(element, state) {
     var $el = $(element);
     if (state==undefined) state=true;
@@ -72,26 +94,7 @@ $(document).on('click','a[widget_ajax]', function(ev) {
 //USER CONTORL
 $(document).on('change','.widget-user-control', function(ev) {
     var $el = $(this);
-    var $elDestBlock = $el.closest('form');
-    var $elDestList = $elDestBlock.find('.widgets_list .list');
-    var user_id = $el.val();
-    $.ajax({
-        url: '/taxweb_widgets/widgets/user/'+user_id,
-        method: 'get',
-        dataType: 'html',
-        beforeSend: function (jqXHR, settings) {
-            widget_loading($elDestBlock);
-        },
-        success: function (data, textStatus, jqXHR) {
-            $elDestList.html(data);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.log('erro',jqXHR);
-        },
-        complete: function (jqXHR, textStatus) {
-            widget_loading($elDestBlock, false);
-        }
-    });
+    widget_load_user_config($el.val(), $el);
 });
 
 $(document).on('ready',function(){
@@ -108,6 +111,10 @@ $(document).on('ready',function(){
     });
 
     //INIT
-    $('.widget-user-control').trigger('change');
+    if ($('.widget-user-control').length > 0) {
+        $('.widget-user-control').trigger('change');
+    } else {
+        widget_load_user_config('',$('.widget .widgets_list:first'))
+    }
 
 });
