@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    taxweb_widgets (0.1.5)
+    taxweb_widgets (0.1.6)
       rails (>= 3, < 5)
 
 GEM

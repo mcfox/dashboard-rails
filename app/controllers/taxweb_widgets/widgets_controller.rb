@@ -13,7 +13,7 @@ module TaxwebWidgets
     end
 
     def user
-      user_id = params[:id]
+      user_id = params[:id] || current_user.id
       @widgets_code = TaxwebWidgets::User.where(user_id: user_id).pluck(:widget, :action).map{|r| "#{r[0]}_#{r[1]}"}
       render partial: 'widgets_list'
     end
