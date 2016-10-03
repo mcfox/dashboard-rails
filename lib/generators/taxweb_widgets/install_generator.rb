@@ -5,6 +5,7 @@ module TaxwebWidgets
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path("../../templates", __FILE__)
     include Rails::Generators::Migration
+
     class_option :orm
     desc 'Instalando Taxweb Widgets'
 
@@ -21,6 +22,5 @@ module TaxwebWidgets
     def create_migration_file
       migration_template 'create_taxweb_widgets_users.rb', 'db/migrate/create_taxweb_widgets_users.rb'
     end
-
   end
 end
