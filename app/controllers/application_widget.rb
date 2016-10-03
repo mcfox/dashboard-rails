@@ -41,22 +41,6 @@ class ApplicationWidget < ::ApplicationController
     end
   end
 
-  # def self.inherited(child_class)
-  #   child_class.instance_eval do
-  #
-  #     def self.permitted_scope!(&block)
-  #       self.class_eval do
-  #         self.send(:define_singleton_method, :test_scope, &block)
-  #       end
-  #     end
-  #
-  #     def permitted_scope?(context)
-  #       self.send(:test_scope)
-  #     end
-  #
-  #   end
-  # end
-
   def self.widgets
     # ApplicationWidget.descendants.map do |klass| #Não estava carregando no primeiro load...
     Dir["#{Rails.root}/app/widgets/*.rb"].map do |file_path|
