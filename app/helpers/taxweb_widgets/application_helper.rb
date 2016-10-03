@@ -13,7 +13,7 @@ module TaxwebWidgets
     end
 
 
-    def widget_can?(widget_name, widget_action)
+    def user_can_widget?(widget_name, widget_action)
       TaxwebWidgets::User.where(user_id: current_user.id, widget: widget_name, action: widget_action).count > 0
     end
 

@@ -5,31 +5,18 @@
         <div class="panel-title">Selecione os Widgets que deseja utilizar:</div>
       </div>
       <div class="panel-body">
-        <%= form_tag(taxweb_widgets_save_path, method: :put, class: 'form-horizontal') do %>
-          <% ApplicationWidget.widgets.each do |widget| %>
-              <ul>
-                <li>
-                  <b><%= widget[:name] %></b>
-                  <br><span class="help-block"><%= widget[:description] %></span>
-                  <ul>
-                    <% widget[:actions].each do |action| %>
-                        <% widget_code = "#{widget[:code]}_#{action[:name]}" %>
-                        <li>
-                          <div class="checkbox">
-                            <%= label_tag widget_code do %>
-                              <%= check_box_tag 'widgets[]', "#{widget[:code]}|#{action[:name]}", @widgets_code.include?(widget_code), {id: widget_code} %>
-                              <b><%= action[:name].to_s.humanize %></b>
-                              <% if action[:description].present? %>
-                                <br><span class="help-block"><%= action[:description] %></span>
-                              <% end %>
-                            <% end %>
-                          </div>
-                        </li>
-                    <% end %>
-                  </ul>
-                </li>
-              </ul>
-          <% end %>
+        <%= form_tag(taxweb_widgets_save_path, method: :put) do %>
+
+          <div class="form-group">
+            <label class="control-label">Usuário:</label>
+            <%= select_tag :user_id, options_from_collection_for_select(User.all, :id, :email, current_user.id), include_blank: false, class: 'form-control widget-user-control' %>
+          </div>
+
+          <fieldset class="widgets_list">
+            <legend>Widgets</legend>
+            <div class="list"></div>
+          </fieldset>
+
           <%= submit_tag "Salvar", class: 'btn btn-success' %>
         <% end %>
       </div>
