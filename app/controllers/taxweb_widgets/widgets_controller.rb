@@ -13,20 +13,21 @@ module TaxwebWidgets
     end
 
     def user
-      user_id = params[:id] || current_user.id
+      user_id = params[:id]
       @widgets_code = TaxwebWidgets::User.where(user_id: user_id).pluck(:widget, :action).map{|r| "#{r[0]}_#{r[1]}"}
       render partial: 'widgets_list'
     end
 
     def index
+      @user_id = params[:user_id] || current_user.id
     end
 
     def save
-      user_id = params[:user_id] || current_user.id
+      user_id = params[:user_id]
       widgets = params[:widgets]
       widget_name_user = []
       action_user = []
-      if widgets.present?
+      if user_id.present? && widgets.present?
         widgets.each do |widget|
           widget_name, action = widget.split('|')
           if widget_name && action
@@ -38,7 +39,7 @@ module TaxwebWidgets
       end
       TaxwebWidgets::User.where(user_id: user_id).where.not(widget: widget_name_user, action: action_user).destroy_all
       flash[:success] = 'Alterações foram salvas com sucesso!'
-      redirect_to taxweb_widgets_path
+      redirect_to taxweb_widgets_path(user_id: user_id)
     end
 
   end
