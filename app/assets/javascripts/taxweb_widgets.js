@@ -47,7 +47,7 @@ function widget_load_user_config(user_id, elDestBlock) {
             widget_loading($elDestBlock);
         },
         success: function (data, textStatus, jqXHR) {
-            console.log(data);
+            // console.log(data);
             $elDestList.html(data);
         },
         error: function (jqXHR, textStatus, errorThrown) {
