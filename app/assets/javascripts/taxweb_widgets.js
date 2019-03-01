@@ -102,12 +102,10 @@ $(document).on('ready',function(){
 
     $('.widget[data-url]').each(function(i,el) {
         var $el = $(el);
-        var ticket = $el.attr('data-tick') || 0;
+        var delay_in_ms = $el.attr('data-tick') || 0;
         widget_load_from_ajax($el);
-        if (ticket > 0) {
-            var interval = window.setInterval(function(){
-                widget_load_from_ajax($el.find('form.widget_config:first'));
-            }, ticket);
+        if (delay_in_ms > 0) {
+            window.setInterval(function(){ widget_load_from_ajax($el); }, delay_in_ms);
         }
     });
 
