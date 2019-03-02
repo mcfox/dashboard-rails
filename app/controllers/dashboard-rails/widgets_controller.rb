@@ -1,10 +1,10 @@
-require_dependency "taxweb_widgets/application_controller"
+require_dependency "dashboard-rails/application_controller"
 
-module TaxwebWidgets
+module DashboardRails
   class WidgetsController < ApplicationController
 
     def load
-      widget = TaxwebWidgets::Widget.new(params[:widget_name], self.request)
+      widget = DashboardRails::Widget.new(params[:widget_name], self.request)
       content = widget.html(params[:widget_action])
     rescue Exception => e
       content = e.message
@@ -14,7 +14,7 @@ module TaxwebWidgets
 
     def user
       user_id = params[:id]
-      @widgets_code = TaxwebWidgets::User.where(user_id: user_id).pluck(:widget, :action).map{|r| "#{r[0]}_#{r[1]}"}
+      @widgets_code = DashboardRails::User.where(user_id: user_id).pluck(:widget, :action).map{|r| "#{r[0]}_#{r[1]}"}
       render partial: 'widgets_list'
     end
 
@@ -33,13 +33,13 @@ module TaxwebWidgets
           if widget_name && action
             widget_name_user << widget_name
             action_user << action
-            TaxwebWidgets::User.find_or_create_by(widget: widget_name, action: action, user_id: user_id)
+            DashboardRails::User.find_or_create_by(widget: widget_name, action: action, user_id: user_id)
           end
         end
       end
-      TaxwebWidgets::User.where(user_id: user_id).where.not(widget: widget_name_user, action: action_user).destroy_all
+      DashboardRails::User.where(user_id: user_id).where.not(widget: widget_name_user, action: action_user).destroy_all
       flash[:success] = 'Alterações foram salvas com sucesso!'
-      redirect_to taxweb_widgets_path(user_id: user_id)
+      redirect_to dashboard-rails_path(user_id: user_id)
     end
 
   end

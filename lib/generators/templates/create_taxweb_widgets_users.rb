@@ -1,8 +1,8 @@
-class CreateTaxwebWidgetsUsers < ActiveRecord::Migration
+class CreateDashboardSettings < ActiveRecord::Migration
 
   def up
-    unless table_exists?(:taxweb_widgets_users)
-      create_table :taxweb_widgets_users do |t|
+    unless table_exists?(:dashboard_settings)
+      create_table :dashboard_settings do |t|
         t.references :user, index: true, foreign_key: false
         t.string :widget
         t.string :action
@@ -12,7 +12,7 @@ class CreateTaxwebWidgetsUsers < ActiveRecord::Migration
   end
 
   def down
-    drop_table :taxweb_widgets_users if table_exists? :taxweb_widgets_users
+    drop_table :dashboard_settings if table_exists? :dashboard_settings
   end
 
 end

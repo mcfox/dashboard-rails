@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    taxweb_widgets (0.1.15)
+    dashboard-rails (0.1.15)
       rails (>= 3, < 5)
 
 GEM
@@ -104,7 +104,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  taxweb_widgets!
+  dashboard-rails!
 
 BUNDLED WITH
    1.16.6

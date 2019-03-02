@@ -1,12 +1,12 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
-require "taxweb_widgets/version"
+require "dashboard-rails/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |spec|
-  spec.name        = "taxweb_widgets"
-  spec.version     = TaxwebWidgets::VERSION
+  spec.name        = "dashboard-rails"
+  spec.version     = DashboardRails::VERSION
   spec.authors     = ["TaxWeb"]
   spec.email       = ["produto@taxweb.com.br"]
   spec.homepage    = "http://www.taxweb.com.br"

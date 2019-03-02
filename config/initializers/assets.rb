@@ -1,1 +1,1 @@
-Rails.application.config.assets.precompile += %w( taxweb_widgets.js taxweb_widgets.css  )
+Rails.application.config.assets.precompile += %w( dashboard-rails.js dashboard-rails.css  )

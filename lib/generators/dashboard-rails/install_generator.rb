@@ -1,7 +1,7 @@
 require 'rails/generators/base'
 require 'rails/generators/migration'
 
-module TaxwebWidgets
+module DashboardRails
   class InstallGenerator < Rails::Generators::Base
     source_root File.expand_path("../../templates", __FILE__)
     include Rails::Generators::Migration
@@ -20,7 +20,7 @@ module TaxwebWidgets
     end
 
     def create_migration_file
-      migration_template 'create_taxweb_widgets_users.rb', 'db/migrate/create_taxweb_widgets_users.rb'
+      migration_template 'create_dashboard-rails_users.rb', 'db/migrate/create_dashboard-rails_users.rb'
     end
   end
 end

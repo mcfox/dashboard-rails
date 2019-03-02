@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
 
-  namespace :taxweb_widgets do
+  namespace :dashboard-rails do
 
     get 'widgets/load/:widget_name/:widget_action', to: 'widgets#load', as: 'load'
     get 'widgets/user(/:id)', to: 'widgets#user', as: 'user'

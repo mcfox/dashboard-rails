@@ -40,7 +40,7 @@ function widget_load_user_config(user_id, elDestBlock) {
     var $elDestBlock = $('.widget_config');
     var $elDestList = $elDestBlock.find('.widgets_list .list');
     $.ajax({
-        url: '/taxweb_widgets/widgets/user/'+user_id,
+        url: '/dashboard-rails/widgets/user/'+user_id,
         method: 'get',
         dataType: 'html',
         beforeSend: function (jqXHR, settings) {

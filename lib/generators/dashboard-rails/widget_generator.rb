@@ -1,6 +1,6 @@
 require 'rails/generators/base'
 
-module TaxwebWidgets
+module DashboardRails
   class WidgetGenerator < Rails::Generators::NamedBase
     source_root File.expand_path("../../templates", __FILE__)
 

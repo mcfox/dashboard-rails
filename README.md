@@ -1,65 +1,81 @@
-# Ferramenta para Gerenciamento de Widgets
+# Dashboard Rails
 
-Essa gem tem como objetivo gerenciar widgets para uso em dashboard
+This Gem is dessigne to help create a dashboard page where the user can select the dsiplayed widgets.
 
-### Instalação
+The user selects the widgte he would like to display and save this information.
 
-Adicione essa linha no Gemfile do sistema:
+For the moment we require a model *User* and the method *current_user* 
+
+### Installation
+
+Add the gem to the Gemfile
+
 ```ruby
-gem 'taxweb_widgets', :git => 'https://TOKEN:x-oauth-basic@github.com/taxweb/taxweb_widgets'
+gem 'dashboard-rails'
 ```
+adn run bundle install
 
-Salve o arquivo e instale a gem utilizando o comando abaixo no diretório raiz da aplicação:
 ```sh
 $ bundle install
 ```
 
-Aplique os arquivos da gem (migrations, configs, initializers) através do comando:
+Generate some required files using the provided generator
 ```sh
-$ rails g taxweb_widgets:install
+$ rails g dashboard-rails:install
 ```
 
-Gere as tabelas no seu banco de dados com o comando:
+A migration will be created the table where we keep the dashboard settings per user
+
 ```sh
 $ rake db:migrate
 ```
 
-Adicione no seu arquivo **application.css**
+Add the provide css to  **application.css**
 ```js
-    *= require taxweb_widgets
+    *= require dashboard-rails
 ```
 
-Adicione no seu arquivo **application.js**
+Add the provide js to **application.js**
 ```js
-    //= require taxweb_widgets
+    //= require dashboard-rails
 ```
 
-### Geradores
+### Dashboard Page
 
-Para sobrescrever as views de configuração dos Widgets utilize:
+To create you dashboard page, just add the following helper to your page
+
+```html
+<%= add_dashboard %>
+```
+
+Or you can generate the dashboard viwes in your project:
 ```sh
-rails g taxweb_widgets:view
+rails g dashboard-rails:view
 ```
 
-Para gerar a estrutura básica do Widget utilize:
+### the Dashboard Configuration Page
+
+
+### Widget Generators
+
+To create the widget skeleton use:
 ```sh
-rails generate taxweb_widgets:widget nome_do_widget
+rails generate dashboard-rails:widget #{widget_name}
 ```
 
-Para excluir o widget e suas pastas
-```sh
-rails destroy taxweb_widgets:widget nome_do_widget
-```
 
-### Widgets
+All widgets are create under the `app/widgets` folder
 
-A lógida dos widgets são criados na pasta `app/widgets/exemplo_widget.rb`
+
+## How to create a Widget
+
+For example:
+
 ```ruby
 class ExemploWidget < ApplicationWidget
 
   name! 'Widget Exemplo'
   description! 'Esse Widget é apenas um exemplo'
-  #refresh_interval 5000
 
   description! :executar, 'Essa ação é um outro exemplo'
   def executar
@@ -76,7 +92,6 @@ Parametros utilizados como documentação para exibir na lista de configuração
 - **name!** identifica o nome (título) do Widget. 
 - **description!** é a descrição (função)  do Widget.
 - **description! :acao** é a descrição (função) da ação daquele Widget.
-- **refresh_interval** é o tempo em que o plugin deverá ser atualizado automaticamente. Padrão: 0 (ZERO - não atualizar). 
 
 O conteúdo visual do Widget (VIEW) seguirá o padrão do rails estando na pasta `app/views/widgets/nome_do_widget/nome_da_acao.html.erb`:
 
@@ -89,16 +104,20 @@ Meu widget de exemplo retornou o ano: <%= @ano %>
 </div>
 ```
 
-Para direcionar o usuário para configurar seus widgets, faça um link para `taxweb_widgets_path`
+Para direcionar o usuário para configurar seus widgets, faça um link para `dashboard-rails_path`
 ```html
-<%= link_to 'Gerenciar Widgets', taxweb_widgets_path %>
+<%= link_to 'Gerenciar Widgets', dashboard-rails_path %>
+
+<%= link_to 'Gerenciar Widgets', dashboard_settings_path %>
+
+
 ```
 
 ### Helpers
 
 Para verificar a permissão de acesso ao Widget pelo usuário atual (current_user), utilize o helper `user_can_widget?(nome_widget, ação)`:
 ```html
-<% if user_can_widget?(:calendarios, :mensal) %>
+<% if show_widget?(:calendarios, :mensal) %>
  
 <% end %>
 ```

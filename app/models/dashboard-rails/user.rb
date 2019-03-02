@@ -1,10 +1,9 @@
-module TaxwebWidgets
+module DashboardRails
   class User < ActiveRecord::Base
 
-    self.table_name = :taxweb_widgets_users
-
+    self.table_name = :dashboard_settings
     belongs_to :user
-
     validates :widget, :action, presence: true
+
   end
 end

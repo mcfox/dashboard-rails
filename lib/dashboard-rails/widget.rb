@@ -1,4 +1,4 @@
-module TaxwebWidgets
+module DashboardRails
   class Widget
 
     attr_accessor :widget, :klass
