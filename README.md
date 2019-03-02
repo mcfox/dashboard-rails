@@ -1,10 +1,17 @@
 # Dashboard Rails
 
-This Gem is dessigne to help create a dashboard page where the user can select the dsiplayed widgets.
+This Gem was designed to help create a dashboard page where the user can configure the diplayed widgets.
 
-The user selects the widgte he would like to display and save this information.
+The user selects the widgets that he would like to display and save this information to the database so next time he
+loads the application the desired widgets will be displayed.
 
 For the moment we require a model *User* and the method *current_user* 
+
+## TODO
+
+- Configure page layout (number and size of columns)
+- Define widgets position in the page using drag & drop
+- Define the auto refrsesh interval (today fixed in 60 seconds)
 
 ### Installation
 
