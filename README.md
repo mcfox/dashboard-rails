@@ -20,18 +20,18 @@ Add the gem to the Gemfile
 ```ruby
 gem 'dashboard-rails'
 ```
-adn run bundle install
+run bundle install
 
 ```sh
 $ bundle install
 ```
 
-Generate some required files using the provided generator
+Generate some required files using the provided install generator
 ```sh
 $ rails g dashboard-rails:install
 ```
 
-A migration will be created the table where we keep the dashboard settings per user
+A migration will be created the table to keep the dashboard settings per user
 
 ```sh
 $ rake db:migrate
@@ -49,18 +49,35 @@ Add the provide js to **application.js**
 
 ### Dashboard Page
 
-To create you dashboard page, just add the following helper to your page
+Create you dashboard page, just add the following helper to your page
 
 ```html
-<%= add_dashboard %>
+<%= dashboard_view %>
 ```
 
-Or you can generate the dashboard viwes in your project:
+Or, you can generate the dashboard viwes in your project to customize it
+
 ```sh
 rails g dashboard-rails:view
 ```
 
 ### the Dashboard Configuration Page
+
+Create you confi dashboard page, just add the following helper to your page
+
+```html
+<%= config_dashboard_view %>
+```
+
+
+<%= config_dashboard_path %>
+
+
+Or, you can generate the dashboard viwes in your project to customize it
+
+```sh
+rails g dashboard-rails:view
+```
 
 
 ### Widget Generators
